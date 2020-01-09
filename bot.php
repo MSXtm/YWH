@@ -1,6 +1,6 @@
 <?php 
 ob_start();
-$API_KEY = '123456789:MSX15Awesome';
+$API_KEY = '903993018:AAGkVSp15jZFYVrssUP1Syg1b-xxeoZKfOk';
 define('API_KEY',$API_KEY);
 
 //Functions 
@@ -53,25 +53,30 @@ function sendphoto($chat_id, $photo, $action){
         }
         return array_map("objectToArrays", $object);
     }
+     function save($filename,$TXTdata){
+  $myfile = fopen("data/".$filename, "w") or die("Unable to open file!");
+  fwrite($myfile, "$TXTdata");
+  fclose($myfile);
+  }
     
 // Variables
 $update = json_decode(file_get_contents('php://input'));
 $message = $update->message;
 $chat_id = $message->chat->id;
-mkdir("data/$from_id");
 $message_id = $message->message_id;
 $from_id = $message->from->id;
 $text = $message->text;
 $step = file_get_contents("data/$from_id/step.txt");
 $token =  file_get_contents("data/$from_id/token.txt");
 $url =  file_get_contents("data/$from_id/url.txt");
+@mkdir("data/");
 
 // Main
 /* '/' Commands */
 if($text == "/start"){
 if (!file_exists("data/$from_id/step.txt")) {
 mkdir("data/$from_id");
-file_put_contents("data/$from_id/step.txt","null");
+save("data/$from_id/step.txt","null");
 $myfile2 = fopen("user.txt", "a") or die("Unable to open file!");
 fwrite($myfile2, "$from_id\n");
 fclose($myfile2);
@@ -181,7 +186,7 @@ if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-
  }
 }
 elseif($text == "/setwebhook" ){
-if($to != "null"){
+if($token != "null"){
  	bot('sendmessage',[
     'chat_id'=>$chat_id,
     'text'=>"صبور باشید.",
@@ -202,7 +207,7 @@ if($to != "null"){
      'message_id'=>$message_id + 1,
       'text'=>"درحال تنظیم...",
   ]);
-  file_get_contents("https://api.telegram.org/bot$to/setwebhook?url=$url");
+  file_get_contents("https://api.telegram.org/bot$token/setwebhook?url=$url");
     sleep(1);
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
@@ -210,7 +215,7 @@ if($to != "null"){
       'text'=>"با موفقیت تنظیم شد، لذت ببرید.",
   ]);
   sleep(1);
-  file_put_contents("data/$from_id/ali.txt","null");
+  file_put_contents("data/$from_id/step.txt","null");
 	bot('sendmessage',[
 	'chat_id'=>$chat_id,
 	'message_id'=>$message_id + 1,
