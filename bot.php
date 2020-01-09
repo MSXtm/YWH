@@ -1,6 +1,6 @@
 <?php 
 ob_start();
-$API_KEY = '903993018:AAGkVSp15jZFYVrssUP1Syg1b-xxeoZKfOk';
+$API_KEY = '123456789:MSX15Awesome';
 define('API_KEY',$API_KEY);
 
 //Functions 
@@ -54,7 +54,7 @@ function sendphoto($chat_id, $photo, $action){
         return array_map("objectToArrays", $object);
     }
      function save($filename,$TXTdata){
-  $myfile = fopen("data/".$filename, "w") or die("Unable to open file!");
+  $myfile = fopen($filename, "w") or die("Unable to open file!");
   fwrite($myfile, "$TXTdata");
   fclose($myfile);
   }
@@ -70,7 +70,7 @@ $step = file_get_contents("data/$from_id/step.txt");
 $token =  file_get_contents("data/$from_id/token.txt");
 $url =  file_get_contents("data/$from_id/url.txt");
 @mkdir("data/");
-
+@mkdir("data/$from_id/");
 // Main
 /* '/' Commands */
 if($text == "/start"){
