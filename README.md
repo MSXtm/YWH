@@ -1,5 +1,5 @@
 # YWH
-Set/delete your webhook... [Available Languages : FA]
+Set/delete your webhook... [Available Languages : EN/FA]
 
 # How to install
 <b>1.</b> Upload the source into your host
