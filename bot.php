@@ -197,18 +197,6 @@ save("data/$from_id/lang.txt","fa");
 save("data/$from_id/step.txt","none");
 	bot('sendmessage',[
 	'chat_id'=>$chat_id,
-	'text'=>"انجام شد!",
-	'reply_markup'=>json_encode([
-	'remove_keyboard'=>true
-	])
-	]);
-	sleep(1);
-	bot('deletemessage',[
-	'chat_id'=>$chat_id,
-	'message_id'=>$message_id + 1,
-	]);
-	bot('sendmessage',[
-	'chat_id'=>$chat_id,
 	'text'=>"رباتی برای کار کردن با متد وبهوک تلگرام.\n\n⚡️ @MSXtm",
     'parse_mode'=>'MarkDown',
     'reply_markup'=>json_encode([
@@ -223,18 +211,6 @@ save("data/$from_id/step.txt","none");
 if($text == "🇺🇸 English"){
 save("data/$from_id/lang.txt","en");
 save("data/$from_id/step.txt","none");
-	bot('sendmessage',[
-	'chat_id'=>$chat_id,
-	'text'=>"Done!",
-	'reply_markup'=>json_encode([
-	'remove_keyboard'=>true
-	])
-	]);
-	sleep(1);
-	bot('deletemessage',[
-	'chat_id'=>$chat_id,
-	'message_id'=>$message_id + 1,
-	]);
 	bot('sendmessage',[
 	'chat_id'=>$chat_id,
 	'text'=>"A bot to work with webhook methods of telegram.\n\n⚡️ @MSXtm [Persian]",
@@ -403,6 +379,16 @@ if($lang == "en"){
 }
 elseif($text == "/setwebhook" ){
 if($token != "null"){
+$step1 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token . "/getwebhookinfo"));
+$step2 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token . "/getme"));
+    $tik2 = objectToArrays($step1);
+    $ur = $tik2["result"]["url"];
+    $ok2 = $tik2["ok"];
+    $tik1 = objectToArrays($step2);
+    $un = $tik1["result"]["username"]; 
+    $fr = $tik1["result"]["first_name"];
+    $id = $tik1["result"]["id"];
+    $ok = $tik1["ok"];
 if($lang == "fa"){
  	bot('sendmessage',[
     'chat_id'=>$chat_id,
@@ -429,7 +415,7 @@ if($lang == "fa"){
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-      'text'=>"با موفقیت تنظیم شد، لذت ببرید.",
+      'text'=>"با موفقیت تنظیم شد، لذت ببرید.\n\nنام کاربری ربات: $un\nنام ربات: $fr\nشناسه ربات: $id",
   ]);
   sleep(1);
   file_put_contents("data/$from_id/step.txt","null");
@@ -473,7 +459,7 @@ if($lang == "en"){
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-      'text'=>"Done, Enjoy.",
+      'text'=>"Done, Enjoy.\n\nBot's Username: $un\nBot's Name: $fr\nBot's ID: $id",
   ]);
   sleep(1);
   file_put_contents("data/$from_id/step.txt","null");
@@ -544,7 +530,7 @@ $step2 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token .
     }
     } else{
     file_put_contents("data/$from_id/step.txt","null");
-    if($lang == "en"){
+    if($lang == "fa"){
  	bot('sendmessage',[
     'chat_id'=>$chat_id,
     'text'=>"صبور باشید.",
@@ -566,7 +552,7 @@ $step2 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token .
     'text'=>"وضعیت اعلام شده:\nنام کاربری | @$un\nشناسه | $id\nنام |‌ $fr\n\nآدرس فایل تنظیم شده وبهوک:\n$ur",
   ]);
   }
-    if($lang == "fa"){
+    if($lang == "en"){
  	bot('sendmessage',[
     'chat_id'=>$chat_id,
     'text'=>"Please wait.",
