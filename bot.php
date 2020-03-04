@@ -330,6 +330,9 @@ if($lang == "en"){
  else {
  file_put_contents("data/$from_id/step.txt","null");
  file_put_contents("data/$from_id/url.txt",$text);
+ $un = json_decode(file_get_contents("https://api.telegram.org/bot".$token ."/getme"));
+ $un = objectToArrays($un);
+ $un = $un["result"]["username"]; 
  if($lang == "fa"){
  	bot('sendmessage',[
     'chat_id'=>$chat_id,
@@ -349,7 +352,11 @@ if($lang == "en"){
   bot('editmessagetext',[
   'chat_id'=>$chat_id,
   'message_id'=>$message_id + 1,
-  'text'=>"آیا مایل به تنظیم وبهوک با این مشخصات هستید؟\n\nتوکن:\n$token\nآدرس فایل شما:\n$text\n\nبرای نهایی کردن این تنظیم، دستور /setwebhook را بفرستید.",
+  'text'=>"آیا مایل به تنظیم وبهوک با این مشخصات هستید؟\n\nتوکن:\n$token\n\nآدرس فایل شما:\n$text\n\nبرای نهایی کردن این تنظیم، دستور /setwebhook را بفرستید.",
+  'reply_markup'=>json_encode([
+  'inline_keyboard'=>[
+  [['text'=>"@".$un,'url'=>"http://t.me/$un"]]
+  ]])
   ]);
   }
  if($lang == "en"){
@@ -371,7 +378,11 @@ if($lang == "en"){
   bot('editmessagetext',[
   'chat_id'=>$chat_id,
   'message_id'=>$message_id + 1,
-  'text'=>"Do you really want to set webhook?\n\nToken:\n$token\nURL:\n$text\n\nIf you are sure, send /setwebhook to do it.",
+  'text'=>"Do you really want to set webhook?\n\nToken:\n$token\n\nURL:\n$text\n\nIf you are sure, send /setwebhook to do it.",
+  'reply_markup'=>json_encode([
+  'inline_keyboard'=>[
+  [['text'=>"@".$un,'url'=>"http://t.me/$un"]]
+  ]])
   ]);
   }
  }
@@ -415,7 +426,7 @@ if($lang == "fa"){
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-      'text'=>"با موفقیت تنظیم شد، لذت ببرید.\n\nنام کاربری ربات: $un\nنام ربات: $fr\nشناسه ربات: $id",
+      'text'=>"با موفقیت تنظیم شد، لذت ببرید.\n\nنام کاربری ربات: @".$un."\nنام ربات: $fr\nشناسه ربات: $id",
   ]);
   sleep(1);
   file_put_contents("data/$from_id/step.txt","null");
@@ -459,7 +470,7 @@ if($lang == "en"){
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-      'text'=>"Done, Enjoy.\n\nBot's Username: $un\nBot's Name: $fr\nBot's ID: $id",
+      'text'=>"Done, Enjoy.\n\nBot's Username: @".$un."\nBot's Name: $fr\nBot's ID: $id",
   ]);
   sleep(1);
   file_put_contents("data/$from_id/step.txt","null");
@@ -549,7 +560,7 @@ $step2 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token .
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-    'text'=>"وضعیت اعلام شده:\nنام کاربری | @$un\nشناسه | $id\nنام |‌ $fr\n\nآدرس فایل تنظیم شده وبهوک:\n$ur",
+    'text'=>"وضعیت اعلام شده:\nنام کاربری | @".$un."\nشناسه | $id\nنام |‌ $fr\n\nآدرس فایل تنظیم شده وبهوک:\n$ur",
   ]);
   }
     if($lang == "en"){
@@ -571,7 +582,7 @@ $step2 = json_decode(file_get_contents("https://api.telegram.org/bot" . $token .
 	bot('editmessagetext',[
     'chat_id'=>$chat_id,
      'message_id'=>$message_id + 1,
-    'text'=>"Token's Information:\nUserName | @$un\nID | $id\nName |‌ $fr\n\nWebhook's URL:\n$ur",
+    'text'=>"Token's Information:\nUserName | @".$un."\nID | $id\nName |‌ $fr\n\nWebhook's URL:\n$ur",
   ]);
   }
 }
@@ -718,7 +729,6 @@ sleep(1);
 	]);
 	}
 }
-
 }
 }
 
